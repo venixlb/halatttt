@@ -44,7 +44,7 @@ client.on('ready', async () => {
     .setAssetsLargeText('Sau') 
     .setAssetsSmallImage('https://cdn.discordapp.com/attachments/1256945067935924245/1272871297864433738/IMG_8628.png?ex=66bc8d46&is=66bb3bc6&hm=8df735fd9fae80f30c8c75ef4d18008926dfca13760d2b5535d9f22438e88266&') //You can put links in tenor or discord and etc.
     .setAssetsSmallText('Sau On Top') 
-    .addButton('Discord', 'https://discord.gg/kaPpCNMhyP');
+    .addButton('Googel', 'https://discord.gg/kaPpCNMhyP');
 
   client.user.setActivity(r);
   client.user.setPresence({ status: "dnd" }); //dnd, online, idle, offline
