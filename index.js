@@ -3,9 +3,9 @@ const client = new Client({ checkUpdate: false });
 
 client.on('ready', async () => {
   console.log(`${client.user.username} is Ready For Working 24/7!`);
-  client.user.setActivity('Your Stream Title', {
+  client.user.setActivity('Sau by venix', {
     type: 'STREAMING',
-    url: 'https://twitch.tv/mogg' 
+    url: 'https://twitch.tv/sauu' 
   });
 });
 
