@@ -35,13 +35,13 @@ client.on('ready', async () => {
   const r = new Discord.RichPresence()
     .setApplicationId('1265825059692609587')
     .setType('PLAYING')
-    .setURL('https://www.twitch.tv/apparentlyjack_rl') 
-    .setState('Hey Nitro is here')
-    .setName('quaaxz')
-    .setDetails(`Nitro is now`)
+    .setURL('https://discord.gg/kaPpCNMhyP') 
+    .setState('Hey Sau is here')
+    .setName('sau')
+    .setDetails(`Sau is here`)
     .setStartTimestamp(Date.now())
  .setAssetsLargeImage('https://media.discordapp.net/attachments/1041035673118965772/1270521845841657907/image_2.webp?ex=66b4012d&is=66b2afad&hm=c0fa475d23f70fc777bcea2e70d9682a9aedf2d565ae549e64552ac303361d2b&=&format=webp&width=696&height=379') //You can put links in tenor or discord and etc.
-    .setAssetsLargeText('Nitro') 
+    .setAssetsLargeText('Sau') 
     .setAssetsSmallImage('https://media.discordapp.net/attachments/1041035673118965772/1270522062095781990/checked.png?ex=66b40160&is=66b2afe0&hm=1413e3f740030479e77899e2e3bebeb05f97a80e7c0b828e6ec6e9012f86255d&=&format=webp&quality=lossless&width=768&height=768') //You can put links in tenor or discord and etc.
     .setAssetsSmallText('Small Text') 
     .addButton('Google', 'https://google.com');
