@@ -19,33 +19,23 @@ app.get('/', (req, res) => {
 // وظيفة جاهزية البوت
 client.on('ready', async () => {
   console.log(`${client.user.username} is ready!`);
-
-  // جلب القناة الصوتية من السيرفر
-  const channel = await client.channels.fetch(process.env.channel);
-  
-  // الاتصال بالقناة الصوتية إذا لم يكن البوت موجودًا فيها
-  connectToChannel(channel);
+  connectToVoiceChannel();
 });
 
 // مستمع لأحداث الصوت لمعرفة متى يخرج البوت من القناة
 client.on('voiceStateUpdate', (oldState, newState) => {
-  // التحقق من أن المستخدم هو البوت نفسه
-  if (oldState.member.id === client.user.id) {
-    const channel = oldState.guild.channels.cache.get(process.env.channel);
-    
-    // إذا خرج البوت من القناة الصوتية
-    if (!newState.channelId) {
-      console.log("Bot left the voice channel. Reconnecting...");
-      connectToChannel(channel);
-    }
+  if (oldState.member.id === client.user.id && !newState.channelId) {
+    console.log("Bot left the voice channel. Reconnecting...");
+    connectToVoiceChannel();
   }
 });
 
 // دالة للاتصال بالقناة الصوتية
-function connectToChannel(channel) {
+async function connectToVoiceChannel() {
+  const channel = await client.channels.fetch(process.env.channel);
   const connection = getVoiceConnection(channel.guild.id);
   
-  if (!connection) {
+  if (!connection || connection.channel.id !== channel.id) {
     joinVoiceChannel({
       channelId: channel.id,
       guildId: channel.guild.id,
@@ -53,6 +43,7 @@ function connectToChannel(channel) {
       selfDeaf: true,
       adapterCreator: channel.guild.voiceAdapterCreator,
     });
+    console.log(`Connected to voice channel: ${channel.name}`);
   }
 }
 
