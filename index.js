@@ -52,7 +52,7 @@ client.on('messageCreate', async (message) => {
   if (args[0] === '!leave') {
     const connection = getVoiceConnection(message.guild.id);
     if (connection) {
-      connection.destroy();
+      connection.destroy(); // إنهاء الاتصال بشكل كامل
       message.reply('تم مغادرة البوت من القناة الصوتية.');
     } else {
       message.reply('البوت غير متصل بأي قناة صوتية.');
