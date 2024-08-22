@@ -28,8 +28,8 @@ client.on('ready', async () => {
         joinVoiceChannel({
           channelId: channel.id, 
           guildId: channel.guild.id, 
-          selfMute: true,
-          selfDeaf: true,
+          selfMute: false,
+          selfDeaf: false,
           adapterCreator: channel.guild.voiceAdapterCreator 
         });
       }
