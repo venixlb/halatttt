@@ -1,5 +1,5 @@
 const { Client } = require('discord.js-selfbot-v13');
-const { joinVoiceChannel } = require('@discordjs/voice');
+const { joinVoiceChannel, getVoiceConnection } = require('@discordjs/voice');
 const express = require("express");
 
 const client = new Client();
@@ -17,59 +17,62 @@ app.get('/', (req, res) => {
   </body>`);
 });
 
-// التأكد من بقاء البوت في القناة الصوتية
+// عندما يكون البوت جاهزًا
 client.on('ready', async () => {
   console.log(`${client.user.username} is ready!`);
-
-  setInterval(async () => {
-    try {
-      const channel = await client.channels.fetch(process.env.channel);
-      if (channel && channel.isVoice()) {
-        joinVoiceChannel({
-          channelId: channel.id, 
-          guildId: channel.guild.id, 
-          selfMute: false,
-          selfDeaf: false,
-          adapterCreator: channel.guild.voiceAdapterCreator 
-        });
-      }
-    } catch (error) {
-      console.error('Error joining voice channel:', error);
-    }
-  }, 10000); // كل 10 ثواني
 });
 
-// معالجة أوامر كتم وإسكات المستخدمين
+// أمر للانضمام إلى قناة صوتية
 client.on('messageCreate', async (message) => {
   if (message.author.bot) return; // تجاهل رسائل البوتات الأخرى
 
   const args = message.content.split(' ');
 
-  if (args[0] === '!deafen') {
-    const member = message.mentions.members.first();
-    if (!member) return message.reply('يرجى تحديد عضو صحيح.');
-
-    try {
-      await member.voice.setDeaf(true);
-      await member.voice.setMute(true);
-      message.reply(`${member.user.username} تم كتمه وإسكاته.`);
-    } catch (error) {
-      console.error('Failed to deafen/mute the user:', error);
-      message.reply('لا يمكنني كتم أو إسكات هذا المستخدم.');
+  if (args[0] === '!join') {
+    const channel = message.member.voice.channel;
+    if (channel) {
+      try {
+        joinVoiceChannel({
+          channelId: channel.id,
+          guildId: channel.guild.id,
+          selfMute: true,
+          selfDeaf: true,
+          adapterCreator: channel.guild.voiceAdapterCreator
+        });
+        message.reply(`تم انضمام البوت إلى القناة الصوتية: ${channel.name}`);
+      } catch (error) {
+        console.error('Failed to join the voice channel:', error);
+        message.reply('حدث خطأ عند محاولة الانضمام إلى القناة الصوتية.');
+      }
+    } else {
+      message.reply('يرجى الانضمام إلى قناة صوتية أولاً.');
     }
   }
 
-  if (args[0] === '!undeafen') {
-    const member = message.mentions.members.first();
-    if (!member) return message.reply('يرجى تحديد عضو صحيح.');
+  if (args[0] === '!leave') {
+    const connection = getVoiceConnection(message.guild.id);
+    if (connection) {
+      connection.destroy();
+      message.reply('تم مغادرة البوت من القناة الصوتية.');
+    } else {
+      message.reply('البوت غير متصل بأي قناة صوتية.');
+    }
+  }
 
+  if (args[0] === '!unmute') {
     try {
-      await member.voice.setDeaf(false);
-      await member.voice.setMute(false);
-      message.reply(`${member.user.username} تم إلغاء كتمه وإسكاته.`);
+      const connection = getVoiceConnection(message.guild.id);
+      if (connection) {
+        const receiver = connection.receiver;
+        const stream = receiver.createStream(message.author, { mode: 'pcm' });
+        stream.pause();
+        message.reply('تم إزالة الكتم والإسكات عن البوت.');
+      } else {
+        message.reply('البوت غير متصل بأي قناة صوتية.');
+      }
     } catch (error) {
-      console.error('Failed to undeafen/unmute the user:', error);
-      message.reply('لا يمكنني إلغاء كتم أو إسكات هذا المستخدم.');
+      console.error('Failed to unmute the bot:', error);
+      message.reply('حدث خطأ عند محاولة إزالة الكتم عن البوت.');
     }
   }
 });
