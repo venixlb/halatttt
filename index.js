@@ -39,7 +39,7 @@ client.on('messageCreate', async (message) => {
           selfDeaf: true,
           adapterCreator: channel.guild.voiceAdapterCreator
         });
-        message.reply(`تم انضمام البوت إلى القناة الصوتية: ${channel.name}`);
+        message.reply(`تم انضمام Venix إلى القناة الصوتية: ${channel.name}`);
       } catch (error) {
         console.error('Failed to join the voice channel:', error);
         message.reply('حدث خطأ عند محاولة الانضمام إلى القناة الصوتية.');
@@ -53,9 +53,9 @@ client.on('messageCreate', async (message) => {
     const connection = getVoiceConnection(message.guild.id);
     if (connection) {
       connection.destroy(); // إنهاء الاتصال بشكل كامل
-      message.reply('تم مغادرة البوت من القناة الصوتية.');
+      message.reply('تم مغادرة venix من القناة الصوتية.');
     } else {
-      message.reply('البوت غير متصل بأي قناة صوتية.');
+      message.reply('venix غير متصل بأي قناة صوتية.');
     }
   }
 
