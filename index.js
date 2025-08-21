@@ -1,31 +1,29 @@
-const mineflayer = require('mineflayer')
+const mineflayer = require('mineflayer');
 
 function createBot() {
   const bot = mineflayer.createBot({
-    host: 'Tinatix.aternos.me', // IP السيرفر
-    port: 30806,                // البورت (25565 الافتراضي)
-    username: '24h',            // اسم البوت
-    version: false              // 👈 يخلي mineflayer يكتشف النسخة أوتوماتيك
-  })
+    host: 'Tinatix.aternos.me',
+    port: 30806,
+    username: '24h',
+    version: 'auto' // 👈 يخلي mineflayer يختار النسخة المناسبة تلقائي
+  });
 
   bot.on('spawn', () => {
-    console.log('✅ Bot is online!')
-
-    // 🛡️ Anti-AFK
+    console.log('✅ Bot is online!');
+    // Anti-AFK
     setInterval(() => {
-      bot.setControlState('jump', true)
-      setTimeout(() => bot.setControlState('jump', false), 250)
-    }, 60000)
-  })
+      bot.setControlState('jump', true);
+      setTimeout(() => bot.setControlState('jump', false), 250);
+    }, 60000);
+  });
 
-  bot.on('kicked', (reason) => console.log('⛔ Kicked:', reason))
-  bot.on('error', (err) => console.log('⚠️ Error:', err))
+  bot.on('kicked', (reason) => console.log('⛔ Kicked:', reason));
+  bot.on('error', (err) => console.log('⚠️ Error:', err));
 
   bot.on('end', () => {
-    console.log('❌ Bot disconnected, reconnecting in 10s...')
-    setTimeout(createBot, 10000)
-  })
+    console.log('❌ Bot disconnected, reconnecting in 10s...');
+    setTimeout(createBot, 10000);
+  });
 }
 
-createBot()
-
+createBot();
