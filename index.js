@@ -4,32 +4,23 @@ function createBot() {
   const bot = mineflayer.createBot({
     host: 'Tinatix.aternos.me', // IP السيرفر
     port: 30806,                // البورت (25565 الافتراضي)
-    username: '24h',            // اسم البوت (لو السيرفر cracked حط أي اسم)
-    version: '1.21.8'           // نسخة السيرفر
+    username: '24h',            // اسم البوت
+    version: false              // 👈 يخلي mineflayer يكتشف النسخة أوتوماتيك
   })
 
-  // ✅ لما يشتغل البوت
   bot.on('spawn', () => {
     console.log('✅ Bot is online!')
 
-    // 🛡️ Anti-AFK (ينط كل دقيقة)
+    // 🛡️ Anti-AFK
     setInterval(() => {
       bot.setControlState('jump', true)
       setTimeout(() => bot.setControlState('jump', false), 250)
-    }, 60000) // كل 60 ثانية
+    }, 60000)
   })
 
-  // 🛠️ لو البوت اتركل (سيرفر طرده)
-  bot.on('kicked', (reason) => {
-    console.log('⛔ Kicked:', reason)
-  })
+  bot.on('kicked', (reason) => console.log('⛔ Kicked:', reason))
+  bot.on('error', (err) => console.log('⚠️ Error:', err))
 
-  // 🐛 لو فيه error
-  bot.on('error', (err) => {
-    console.log('⚠️ Error:', err)
-  })
-
-  // 🔄 اعادة الاتصال بعد 10 ثواني
   bot.on('end', () => {
     console.log('❌ Bot disconnected, reconnecting in 10s...')
     setTimeout(createBot, 10000)
@@ -37,3 +28,4 @@ function createBot() {
 }
 
 createBot()
+
