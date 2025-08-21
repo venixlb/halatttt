@@ -2,9 +2,9 @@ const mineflayer = require('mineflayer')
 
 function createBot() {
   const bot = mineflayer.createBot({
-    host: 'YOUR.SERVER.IP', // server IP
-    port: 25565,            // server port (default 25565)
-    username: 'BotName'     // cracked: any name, premium: use email
+    host: 'Tinatix.aternos.me', // server IP
+    port: 30806,            // server port (default 25565)
+    username: '24bot'     // cracked: any name, premium: use email
     // password: 'PASSWORD' // only if premium
   })
 
