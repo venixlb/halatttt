@@ -5,7 +5,7 @@ function createBot() {
     host: 'Tinatix.aternos.me', // :point_left: IP السيرفر بتاعك
     port: 30806,                // البورت (خليه 25565 إلا لو غيرته)
     username: '24h',        // اسم البوت (لو Cracked حط أي اسم)
-    version: '1.20.8'           // :point_left: هنا النسخة الصح
+    version: '1.21.8'           // :point_left: هنا النسخة الصح
   })
 
   bot.on('spawn', () => {
